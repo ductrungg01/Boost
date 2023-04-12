@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class RocketMoverment : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class RocketMoverment : MonoBehaviour
     [SerializeField] private float thrustFactor = 1000f;
     [SerializeField] private float maxThrust = 5f;
     [SerializeField] private float rotateFactor = 100f;
+
+    [SerializeField] private ParticleSystem mainBoostParticle;
+    [SerializeField] private ParticleSystem rightBoostParticle;
+    [SerializeField] private ParticleSystem leftBoostParticle;
     
     void Start()
     {
@@ -19,8 +24,6 @@ public class RocketMoverment : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(rb.velocity.magnitude);
-        
         ProcessThrust();
         ProcessRotation();
     }
@@ -31,28 +34,49 @@ public class RocketMoverment : MonoBehaviour
         {
             if (rb.velocity.magnitude < maxThrust)
             {
+                if (!mainBoostParticle.isPlaying)
+                {
+                    mainBoostParticle.Play();
+                }
                 rb.AddRelativeForce(Vector3.up * (thrustFactor * Time.deltaTime));
             }
+        }
+        else
+        {
+            mainBoostParticle.Stop();
         }
     }
 
     void ProcessRotation()
     {
-        Vector3 rotateForce = rotateFactor * Time.deltaTime * Vector3.forward;
-        
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            ApplyRotate(rotateForce);
-        } else if (Input.GetKey(KeyCode.RightArrow))
+            if (!rightBoostParticle.isPlaying)
+            {
+                rightBoostParticle.Play();
+            }
+            ApplyRotate(rotateFactor);
+        } 
+        else if (Input.GetKey(KeyCode.RightArrow))
         {
-            ApplyRotate(-rotateForce);
+            if (!leftBoostParticle.isPlaying)
+            {
+                leftBoostParticle.Play();
+            }
+            ApplyRotate(-rotateFactor);
+        }
+        else
+        {
+            leftBoostParticle.Stop();
+            rightBoostParticle.Stop();
         }
     }
 
-    void ApplyRotate(Vector3 rotateForce)
+    void ApplyRotate(float rotateThisFrame)
     {
         rb.freezeRotation = true;
-        transform.Rotate(rotateForce);
+        transform.Rotate(rotateThisFrame * Time.deltaTime * Vector3.forward);
         rb.freezeRotation = false;
     }
+
 }
