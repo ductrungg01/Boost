@@ -32,18 +32,29 @@ public class RocketMoverment : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            if (rb.velocity.magnitude < maxThrust)
-            {
-                if (!mainBoostParticle.isPlaying)
-                {
-                    mainBoostParticle.Play();
-                }
-                rb.AddRelativeForce(Vector3.up * (thrustFactor * Time.deltaTime));
-            }
+            StartThrust();
         }
         else
         {
-            mainBoostParticle.Stop();
+            StopThrust();
+        }
+    }
+
+    private void StopThrust()
+    {
+        mainBoostParticle.Stop();
+    }
+
+    private void StartThrust()
+    {
+        if (rb.velocity.magnitude < maxThrust)
+        {
+            if (!mainBoostParticle.isPlaying)
+            {
+                mainBoostParticle.Play();
+            }
+
+            rb.AddRelativeForce(Vector3.up * (thrustFactor * Time.deltaTime));
         }
     }
 
@@ -51,32 +62,47 @@ public class RocketMoverment : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            if (!rightBoostParticle.isPlaying)
-            {
-                rightBoostParticle.Play();
-            }
-            ApplyRotate(rotateFactor);
+            RotateLeft();
         } 
         else if (Input.GetKey(KeyCode.RightArrow))
         {
-            if (!leftBoostParticle.isPlaying)
-            {
-                leftBoostParticle.Play();
-            }
-            ApplyRotate(-rotateFactor);
+            RotateRight();
         }
         else
         {
-            leftBoostParticle.Stop();
-            rightBoostParticle.Stop();
+            StopRotate();
         }
+    }
+
+    private void RotateLeft()
+    {
+        if (!rightBoostParticle.isPlaying)
+        {
+            rightBoostParticle.Play();
+        }
+
+        ApplyRotate(rotateFactor);
+    }
+
+    private void RotateRight()
+    {
+        if (!leftBoostParticle.isPlaying)
+        {
+            leftBoostParticle.Play();
+        }
+
+        ApplyRotate(-rotateFactor);
+    }
+
+    private void StopRotate()
+    {
+        leftBoostParticle.Stop();
+        rightBoostParticle.Stop();
     }
 
     void ApplyRotate(float rotateThisFrame)
     {
-        rb.freezeRotation = true;
         transform.Rotate(rotateThisFrame * Time.deltaTime * Vector3.forward);
-        rb.freezeRotation = false;
     }
 
 }
