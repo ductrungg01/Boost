@@ -19,30 +19,57 @@ public class CollisionHandler : MonoBehaviour
             return;
         }
 
-        if (collision.gameObject.CompareTag("Friendly"))
+        switch (collision.gameObject.tag)
         {
-            // do nothing
-        } else if (collision.gameObject.CompareTag("Obstacle"))
-        {
-            Fail();
-        } else if (collision.gameObject.CompareTag("Destination"))
-        {
-            Success();
-        } else if (collision.gameObject.CompareTag("DeadZone"))
-        {
-            Fail();
+            case "Friendly":
+                break;
+            case "Obstacle":
+                StartFailSequence();
+                break;
+            case "Destination":
+                StartSuccessSequence();
+                break;
+            case "DeadZone":
+                StartFailSequence();
+                break;
         }
     }
 
-    void Fail()
+    void StartSuccessSequence()
     {
-        if (!failParticle.isPlaying)
-            failParticle.Play();
-    }
-
-    void Success()
-    {
+        GetComponent<RocketMoverment>().enabled = false;
+        
         if (!successParticle.isPlaying)
             successParticle.Play();
+        
+        Debug.Log("Success");
+
+        allowCollision = false;
+        
+        Invoke("LoadNextLevel", 3);
+    }
+
+    void StartFailSequence()
+    {
+        GetComponent<RocketMoverment>().enabled = false;
+        
+        if (!failParticle.isPlaying)
+            failParticle.Play();
+        
+        Debug.Log("Fail");
+        
+        allowCollision = false;
+        
+        Invoke("ReloadLevel", 3);
+    }
+
+    void LoadNextLevel()
+    {
+        levelManager.LoadNextLevel();
+    }
+
+    void ReloadLevel()
+    {
+        levelManager.ReloadLevel();
     }
 }

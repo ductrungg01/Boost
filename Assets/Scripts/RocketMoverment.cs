@@ -6,7 +6,6 @@ using UnityEngine.Serialization;
 public class RocketMoverment : MonoBehaviour
 {
     private Rigidbody rb;
-    private Transform transform;
 
     [SerializeField] private float thrustFactor = 1000f;
     [SerializeField] private float maxThrust = 5f;
@@ -15,11 +14,15 @@ public class RocketMoverment : MonoBehaviour
     [SerializeField] private ParticleSystem mainBoostParticle;
     [SerializeField] private ParticleSystem rightBoostParticle;
     [SerializeField] private ParticleSystem leftBoostParticle;
+
+    [SerializeField] private AudioClip engineSFX;
+
+    private AudioSource audioSource;
     
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        transform = GetComponent<Transform>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -53,6 +56,9 @@ public class RocketMoverment : MonoBehaviour
             {
                 mainBoostParticle.Play();
             }
+            
+            if (!audioSource.isPlaying)
+                audioSource.PlayOneShot(engineSFX);
 
             rb.AddRelativeForce(Vector3.up * (thrustFactor * Time.deltaTime));
         }
@@ -81,6 +87,9 @@ public class RocketMoverment : MonoBehaviour
             rightBoostParticle.Play();
         }
 
+        if (!audioSource.isPlaying)
+            audioSource.PlayOneShot(engineSFX);       
+        
         ApplyRotate(rotateFactor);
     }
 
@@ -90,6 +99,9 @@ public class RocketMoverment : MonoBehaviour
         {
             leftBoostParticle.Play();
         }
+        
+        if (!audioSource.isPlaying)
+            audioSource.PlayOneShot(engineSFX);
 
         ApplyRotate(-rotateFactor);
     }
