@@ -2,7 +2,7 @@
 
 Welcome to Boost, an exciting rocket game where you take control of a rocket, soaring through the skies. Navigate through obstacles, boost your way to the finish line, and experience the thrill of high-speed rocket adventures!
 
-## [Play Boost - https://sharemygame.com/@ductrungg/boost] (https://sharemygame.com/@ductrungg/boost) {:target="_blank"}
+## [Play Boost - https://sharemygame.com/@ductrungg/boost](https://sharemygame.com/@ductrungg/boost)
 
 ## Features:
 
