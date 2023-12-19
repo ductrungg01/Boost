@@ -5,6 +5,7 @@ Welcome to Boost, an exciting rocket game where you take control of a rocket, so
 ## [Play Boost - https://sharemygame.com/@ductrungg/boost](https://sharemygame.com/@ductrungg/boost)
 
 ## Features:
+This is all features that I learned during develop this project with Unity
 
 - **Onion Design:** Immerse yourself in a layered and dynamic gaming experience.
 - **Input Binding:** Precise control with responsive input for seamless gameplay.
