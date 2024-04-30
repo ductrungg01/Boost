@@ -18,7 +18,7 @@ public class RocketMoverment : MonoBehaviour
     [SerializeField] private AudioClip engineSFX;
 
     private AudioSource audioSource;
-    
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -33,7 +33,7 @@ public class RocketMoverment : MonoBehaviour
 
     void ProcessThrust()
     {
-        if (Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0))
+        if (Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0) || Input.GetKey(KeyCode.W))
         {
             StartThrust();
         }
@@ -56,7 +56,7 @@ public class RocketMoverment : MonoBehaviour
             {
                 mainBoostParticle.Play();
             }
-            
+
             if (!audioSource.isPlaying)
                 audioSource.PlayOneShot(engineSFX);
 
@@ -66,11 +66,11 @@ public class RocketMoverment : MonoBehaviour
 
     void ProcessRotation()
     {
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             RotateLeft();
         } 
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             RotateRight();
         }
